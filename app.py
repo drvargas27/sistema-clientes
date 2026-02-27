@@ -6,11 +6,10 @@ from datetime import datetime, timedelta
 st.set_page_config(layout="wide")
 st.title("📋 Sistema de Gestión de Clientes - Centro Estético")
 
-# Conectar base de datos
+# ------------------- CONEXIÓN BASE DE DATOS -------------------
 conn = sqlite3.connect("clientes.db", check_same_thread=False)
 c = conn.cursor()
 
-# Crear tabla de clientes con nuevos campos si no existe
 c.execute("""
 CREATE TABLE IF NOT EXISTS clientes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,7 +26,7 @@ CREATE TABLE IF NOT EXISTS clientes (
 """)
 conn.commit()
 
-# Menú lateral
+# ------------------- MENÚ LATERAL -------------------
 menu = st.sidebar.radio("Menú", ["➕ Agregar Cliente", "📋 Ver Clientes", "🎂 Cumpleaños del Mes", "🔔 Servicios Hoy"])
 
 # ------------------- AGREGAR CLIENTE -------------------
@@ -38,17 +37,10 @@ if menu == "➕ Agregar Cliente":
     telefono = st.text_input("Teléfono")
     fecha_cumple = st.date_input("Fecha de cumpleaños")
     fecha_inicio = st.date_input("Fecha primera visita")
-    
     fecha_procedimiento = st.date_input("Fecha del procedimiento")
-    
-    # Tipo de servicio
     tipo_servicio = st.selectbox("Tipo de servicio", ["Depilación", "Cejas", "Pestañas", "Micropigmentación", "Otros"])
-    
-    # Variación específica
     variacion = st.text_input("Variación específica del servicio")
-    
     proxima_cita = st.date_input("Próxima cita")
-    
     notas = st.text_area("Notas adicionales")
     
     if st.button("Guardar Cliente"):
